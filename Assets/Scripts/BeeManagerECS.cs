@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeeManager : MonoBehaviour {
+public class BeeManagerECS : MonoBehaviour {
 	public Mesh beeMesh;
 	public Material beeMaterial;
 	public Color[] teamColors;
