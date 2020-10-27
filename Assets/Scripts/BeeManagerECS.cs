@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using ECS.Components;
+using Unity.Entities;
+using Unity.Transforms;
 using UnityEngine;
 
 public class BeeManagerECS : MonoBehaviour {
@@ -28,8 +31,10 @@ public class BeeManagerECS : MonoBehaviour {
 	[Space(10)]
 	public int startBeeCount;
 
-
 	public GameObject BeePrefab;
+
+	private Entity BeeEntityPrefab;
+	private EntityManager manager;
 
 	List<Bee> bees;
 	List<Bee>[] teamsOfBees;
@@ -39,7 +44,7 @@ public class BeeManagerECS : MonoBehaviour {
 	List<List<Matrix4x4>> beeMatrices;
 	List<List<Vector4>> beeColors;
 
-	static BeeManager instance;
+	static BeeManagerECS instance;
 
 	const int beesPerBatch=1023;
 	MaterialPropertyBlock matProps;
@@ -52,27 +57,24 @@ public class BeeManagerECS : MonoBehaviour {
 	public static void SpawnBee(Vector3 pos,int team) {
 		instance._SpawnBee(pos,team);
 	}
+	
 	void _SpawnBee(Vector3 pos, int team) {
-		Bee bee;
-		if (pooledBees.Count == 0) {
-			bee = new Bee();
-		} else {
-			bee = pooledBees[pooledBees.Count-1];
-			pooledBees.RemoveAt(pooledBees.Count - 1);
+		Entity bee;
+
+		bee = manager.Instantiate(BeeEntityPrefab);
+		manager.SetComponentData(bee, new Translation {Value =pos});
+		if (team == 0)
+		{
+			manager.AddComponentData(bee, new TeamATag());
 		}
-		bee.Init(pos,team,Random.Range(minBeeSize,maxBeeSize));
-		bee.velocity = Random.insideUnitSphere * maxSpawnSpeed;
-		bees.Add(bee);
-		teamsOfBees[team].Add(bee);
-		if (beeMatrices[activeBatch].Count == beesPerBatch) {
-			activeBatch++;
-			if (beeMatrices.Count==activeBatch) {
-				beeMatrices.Add(new List<Matrix4x4>());
-				beeColors.Add(new List<Vector4>());
-			}
+		else
+		{
+			manager.AddComponentData(bee, new TeamBTag());
 		}
-		beeMatrices[activeBatch].Add(Matrix4x4.identity);
-		beeColors[activeBatch].Add(teamColors[team]);
+		
+		// todo size
+
+		manager.AddComponentData(bee, new Velocity() {Value = Random.insideUnitSphere * maxSpawnSpeed});
 	}
 	void DeleteBee(Bee bee) {
 		pooledBees.Add(bee);
@@ -87,7 +89,14 @@ public class BeeManagerECS : MonoBehaviour {
 
 	void Awake() {
 		instance = this;
+		
+		World world = World.DefaultGameObjectInjectionWorld;
+		manager = world.EntityManager;
+		GameObjectConversionSettings settings =
+			new GameObjectConversionSettings(world, GameObjectConversionUtility.ConversionFlags.AssignName);
+		BeeEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(BeePrefab, settings);
 	}
+	
 	void Start () {
 		bees = new List<Bee>(50000);
 		teamsOfBees = new List<Bee>[2];
