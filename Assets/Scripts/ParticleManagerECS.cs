@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using ECS.Components;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ParticleManagerECS : MonoBehaviour {
 	public GameObject ParticlePrefab;
 	public float speedStretch;
 
-	static ParticleManagerECS instance;
+	public static ParticleManagerECS instance;
 
 	const int instancesPerBatch = 1023;
 	const int maxParticleCount = 10*instancesPerBatch;
@@ -29,20 +32,21 @@ public class ParticleManagerECS : MonoBehaviour {
 		
 		Entity particle;
 
-		particle = manager.Instantiate(ParticlePrefab);
+		particle = manager.Instantiate(ParticleEntityPrefab);
 		manager.SetComponentData(particle, new Translation {Value = position});
 		manager.AddComponentData(particle, new ParticleTag());
 		manager.AddComponentData(particle, new Life {Value = 1f});
 
 		if (type==ParticleType.Blood) {
+			manager.AddComponentData(particle, new BloodTag());
 			manager.AddComponentData(particle, new Velocity {Value = velocity+ Random.insideUnitSphere * velocityJitter});
-			// particle.lifeDuration = Random.Range(3f,5f);
-			// particle.size = Vector3.one*Random.Range(.1f,.2f);
+			manager.AddComponentData(particle, new LifeDuration{Value = Random.Range(3f,5f)});
+			manager.SetComponentData(particle, new NonUniformScale {Value = Vector3.one*Random.Range(.1f,.2f)});
 			// particle.color = Random.ColorHSV(-.05f,.05f,.75f,1f,.3f,.8f);
 		} else if (type==ParticleType.SpawnFlash) {
 			manager.AddComponentData(particle, new Velocity {Value =  Random.insideUnitSphere * 5f});
-			// particle.lifeDuration = Random.Range(.25f,.5f);
-			// particle.size = Vector3.one*Random.Range(1f,2f);
+			manager.AddComponentData(particle, new LifeDuration{Value = Random.Range(.25f,.5f)});
+			manager.SetComponentData(particle, new NonUniformScale {Value = Vector3.one*Random.Range(1f,2f)});
 			// particle.color = Color.white;
 		}
 
@@ -67,6 +71,14 @@ public class ParticleManagerECS : MonoBehaviour {
 		GameObjectConversionSettings settings =
 			new GameObjectConversionSettings(world, GameObjectConversionUtility.ConversionFlags.AssignName);
 		ParticleEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(ParticlePrefab, settings);
+	}
+
+	private void Start()
+	{
+		for (int i = 0; i < 500; i++)
+		{
+			SpawnParticle(float3.zero, ParticleType.Blood, new Vector3(1, 0, 0));
+		}
 	}
 
 	void Update() {
