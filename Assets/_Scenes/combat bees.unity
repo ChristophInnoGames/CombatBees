@@ -630,7 +630,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beeMesh: {fileID: 0}
   beeMaterial: {fileID: 0}
-  teamColors: []
+  teamColors:
+  - {r: 0.30882353, g: 0.4279919, b: 1, a: 1}
+  - {r: 0.94362324, g: 0.9485294, b: 0.5928309, a: 1}
   minBeeSize: 0.25
   maxBeeSize: 0.5
   speedStretch: 0.2

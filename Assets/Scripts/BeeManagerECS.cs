@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ECS.Components;
 using Unity.Entities;
+using Unity.Rendering;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -48,6 +49,7 @@ public class BeeManagerECS : MonoBehaviour {
 
 	const int beesPerBatch=1023;
 	MaterialPropertyBlock matProps;
+	private RenderMesh[] teamRenderMeshs;
 
 	public static void SpawnBee(int team) {
 		Vector3 pos = Vector3.right * (-Field.size.x * .4f + Field.size.x * .8f * team);
@@ -72,6 +74,8 @@ public class BeeManagerECS : MonoBehaviour {
 			manager.AddComponentData(bee, new TeamBTag());
 		}
 		
+		manager.SetSharedComponentData(bee, teamRenderMeshs[team]);
+		
 		// todo size
 
 		manager.AddComponentData(bee, new Velocity() {Value = Random.insideUnitSphere * maxSpawnSpeed});
@@ -87,15 +91,26 @@ public class BeeManagerECS : MonoBehaviour {
 		beeColors[activeBatch].RemoveAt(beeColors[activeBatch].Count - 1);
 	}
 
-	void Awake() {
+	void Awake()
+	{
 		instance = this;
-		
+
 		World world = World.DefaultGameObjectInjectionWorld;
 		manager = world.EntityManager;
 		GameObjectConversionSettings settings =
 			new GameObjectConversionSettings(world, GameObjectConversionUtility.ConversionFlags.AssignName);
 		BeeEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(BeePrefab, settings);
+
+		RenderMesh renderMesh = manager.GetSharedComponentData<RenderMesh>(BeeEntityPrefab);
+		teamRenderMeshs = new RenderMesh[teamColors.Length];
+		for (int i = 0; i < teamColors.Length; ++i)
+		{
+			teamRenderMeshs[i] = renderMesh;
+			teamRenderMeshs[i].material = Instantiate(renderMesh.material);
+			teamRenderMeshs[i].material.color = teamColors[i];
+		}
 	}
+
 	
 	void Start () {
 		bees = new List<Bee>(50000);
