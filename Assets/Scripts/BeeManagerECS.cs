@@ -168,7 +168,7 @@ public class BeeManagerECS : MonoBehaviour {
 							bee.isAttacking = true;
 							bee.velocity += delta * (attackForce * deltaTime / Mathf.Sqrt(sqrDist));
 							if (sqrDist < hitDistance * hitDistance) {
-								ParticleManager.SpawnParticle(bee.enemyTarget.position,ParticleType.Blood,bee.velocity * .35f,2f,6);
+								ParticleManagerECS.SpawnParticle(bee.enemyTarget.position,ParticleType.Blood,bee.velocity * .35f,2f,6);
 								bee.enemyTarget.dead = true;
 								bee.enemyTarget.velocity *= .5f;
 								bee.enemyTarget = null;
@@ -210,7 +210,7 @@ public class BeeManagerECS : MonoBehaviour {
 				}
 			} else {
 				if (Random.value<(bee.deathTimer-.5f)*.5f) {
-					ParticleManager.SpawnParticle(bee.position,ParticleType.Blood,Vector3.zero);
+					ParticleManagerECS.SpawnParticle(bee.position,ParticleType.Blood,Vector3.zero);
 				}
 
 				bee.velocity.y += Field.gravity * deltaTime;

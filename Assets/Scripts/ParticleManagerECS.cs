@@ -32,8 +32,21 @@ public class ParticleManagerECS : MonoBehaviour {
 		particle = manager.Instantiate(ParticlePrefab);
 		manager.SetComponentData(particle, new Translation {Value = position});
 		manager.AddComponentData(particle, new ParticleTag());
-		manager.AddComponentData(particle, new Velocity {Value = velocity});
+		manager.AddComponentData(particle, new Life {Value = 1f});
 
+		if (type==ParticleType.Blood) {
+			manager.AddComponentData(particle, new Velocity {Value = velocity+ Random.insideUnitSphere * velocityJitter});
+			// particle.lifeDuration = Random.Range(3f,5f);
+			// particle.size = Vector3.one*Random.Range(.1f,.2f);
+			// particle.color = Random.ColorHSV(-.05f,.05f,.75f,1f,.3f,.8f);
+		} else if (type==ParticleType.SpawnFlash) {
+			manager.AddComponentData(particle, new Velocity {Value =  Random.insideUnitSphere * 5f});
+			// particle.lifeDuration = Random.Range(.25f,.5f);
+			// particle.size = Vector3.one*Random.Range(1f,2f);
+			// particle.color = Color.white;
+		}
+
+		
 		// if (pooledParticles.Count == 0) {
 		// 	particle = new BeeParticle();
 		// } else {
@@ -43,31 +56,7 @@ public class ParticleManagerECS : MonoBehaviour {
 		// 	particle.stuck = false;
 		// }
 		// particle.type = type;
-		// particle.position = position;
-		// particle.life = 1f;
-		// if (type==ParticleType.Blood) {
-		// 	particle.velocity = velocity+ Random.insideUnitSphere * velocityJitter;
-		// 	particle.lifeDuration = Random.Range(3f,5f);
-		// 	particle.size = Vector3.one*Random.Range(.1f,.2f);
-		// 	particle.color = Random.ColorHSV(-.05f,.05f,.75f,1f,.3f,.8f);
-		// } else if (type==ParticleType.SpawnFlash) {
-		// 	particle.velocity = Random.insideUnitSphere * 5f;
-		// 	particle.lifeDuration = Random.Range(.25f,.5f);
-		// 	particle.size = Vector3.one*Random.Range(1f,2f);
-		// 	particle.color = Color.white;
-		// }
 		//
-		// particles.Add(particle);
-		//
-		// if (activeBatchSize == instancesPerBatch) {
-		// 	activeBatch++;
-		// 	activeBatchSize = 0;
-		// 	if (matrices[activeBatch]==null) {
-		// 		matrices[activeBatch]=new Matrix4x4[instancesPerBatch];
-		// 		colors[activeBatch]=new Vector4[instancesPerBatch];
-		// 	}
-		// }
-		// activeBatchSize++;
 	}
 
 	void Awake() {
