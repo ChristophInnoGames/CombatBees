@@ -60,7 +60,7 @@ namespace ECS.Systems
 
                 if (stuck)
                 {
-	                //buffer.AddComponent(entityInQueryIndex, entity, new IsStuckTag());
+	                buffer.AddComponent(entityInQueryIndex, entity, new IsStuckTag());
                 }
             }).ScheduleParallel();
             bufferSystem.AddJobHandleForProducer(Dependency);

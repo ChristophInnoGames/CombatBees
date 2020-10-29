@@ -73,14 +73,6 @@ public class ParticleManagerECS : MonoBehaviour {
 		ParticleEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(ParticlePrefab, settings);
 	}
 
-	private void Start()
-	{
-		for (int i = 0; i < 500; i++)
-		{
-			SpawnParticle(float3.zero, ParticleType.Blood, new Vector3(1, 0, 0));
-		}
-	}
-
 	void Update() {
 		// for (int j = 0; j <= activeBatch; j++) {
 		// 	int batchSize = instancesPerBatch;
