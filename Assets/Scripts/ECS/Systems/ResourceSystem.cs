@@ -29,12 +29,12 @@ namespace ECS.Systems
             
             Entities.WithAny<ResourceTag>().WithoutBurst().ForEach((ref Translation pos, ref Velocity velo) =>
             {
-                pos.Value = Vector3.Lerp(pos.Value, NearestSnappedPos(pos.Value), snapStiffness * deltaTime);
+                pos.Value = Vector3.Lerp(pos.Value, NearestSnappedPos(ref pos), snapStiffness * deltaTime);
                 velo.Value.y += Field.gravity * deltaTime;
                 pos.Value += velo.Value * deltaTime;
 
-                GetGridIndex(pos.Value, out gridX, out gridY);
-                float floorY = 0;//GetStackPos(gridX, gridY, stackHeights[resource.gridX, resource.gridY]).y;
+                GetGridIndex(ref pos, out gridX, out gridY);
+                float floorY = 0f;//GetStackPos(gridX, gridY, stackHeights[resource.gridX, resource.gridY]).y;
                 
                 for (int j = 0; j < 3; j++)
                 {
@@ -80,19 +80,19 @@ namespace ECS.Systems
         }
         
         
-        private void GetGridIndex(Vector3 pos, out int gridX, out int gridY)
+        private void GetGridIndex(ref Translation pos, out int gridX, out int gridY)
         {
-            gridX = Mathf.FloorToInt((pos.x - minGridPos.x + gridSize.x * .5f) / gridSize.x);
-            gridY = Mathf.FloorToInt((pos.z - minGridPos.y + gridSize.y * .5f) / gridSize.y);
+            gridX = Mathf.FloorToInt((pos.Value.x - minGridPos.x + gridSize.x * .5f) / gridSize.x);
+            gridY = Mathf.FloorToInt((pos.Value.z - minGridPos.y + gridSize.y * .5f) / gridSize.y);
             gridX = Mathf.Clamp(gridX, 0, gridCounts.x - 1);
             gridY = Mathf.Clamp(gridY, 0, gridCounts.y - 1);
         }
 
-        private Vector3 NearestSnappedPos(Vector3 pos)
+        private Vector3 NearestSnappedPos(ref Translation pos)
         {
             int x, y;
-            GetGridIndex(pos, out x, out y);
-            return new Vector3(minGridPos.x + x * gridSize.x, pos.y, minGridPos.y + y * gridSize.y);
+            GetGridIndex(ref pos, out x, out y);
+            return new Vector3(minGridPos.x + x * gridSize.x, pos.Value.y, minGridPos.y + y * gridSize.y);
         }
         
         private Vector3 GetStackPos(int x, int y, int height) {
