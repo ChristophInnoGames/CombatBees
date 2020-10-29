@@ -8,12 +8,16 @@ using Random = UnityEngine.Random;
 
 public class ResourceManagerECS : MonoBehaviour {
 	public float resourceSize;
+	public float snapStiffness;
+	public float carryStiffness;
+	public float spawnRate=.1f;
+	public int beesPerResource;
 	[Space(10)]
 	public int startResourceCount;
-	
-	Vector2Int gridCounts;
-	Vector2 gridSize;
-	Vector2 minGridPos;
+
+	public Vector2Int gridCounts;
+	public Vector2 gridSize;
+	public Vector2 minGridPos;
 
 	int[,] stackHeights;
 

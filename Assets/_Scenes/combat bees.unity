@@ -281,15 +281,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069f5dd5edff40898dd26abe165df4bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceMesh: {fileID: 0}
-  resourceMaterial: {fileID: 0}
   resourceSize: 0.75
-  snapStiffness: 2
-  carryStiffness: 15
-  spawnRate: 10
-  beesPerResource: 8
+  snapStiffness: 0
+  carryStiffness: 0
+  spawnRate: 0.1
+  beesPerResource: 0
   startResourceCount: 500
-  ResourcePrefab: {fileID: 7782291347382640006, guid: d1891d8a4459843329d935ccb61ecaac,
+  gridCounts: {x: 0, y: 0}
+  gridSize: {x: 0, y: 0}
+  minGridPos: {x: 0, y: 0}
+  ResourcePrefab: {fileID: 3813424089956894454, guid: d1891d8a4459843329d935ccb61ecaac,
     type: 3}
 --- !u!4 &273119670
 Transform:

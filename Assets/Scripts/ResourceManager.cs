@@ -87,7 +87,7 @@ public class ResourceManager : MonoBehaviour {
 		instance = this;
 	}
 	void Start () {
-		resources = new List<Resource>();
+		/*resources = new List<Resource>();
 		matrices = new List<Matrix4x4>();
 
 		gridCounts = Vector2Int.RoundToInt(new Vector2(Field.size.x,Field.size.z) / resourceSize);
@@ -97,11 +97,11 @@ public class ResourceManager : MonoBehaviour {
 
 		for (int i=0;i<startResourceCount;i++) {
 			SpawnResource();
-		}
+		}*/
 	}
 
 	void Update() {
-		if (resources.Count < 1000 && MouseRaycaster.isMouseTouchingField) {
+		/*if (resources.Count < 1000 && MouseRaycaster.isMouseTouchingField) {
 			if (Input.GetKey(KeyCode.Mouse0)) {
 				spawnTimer += Time.deltaTime;
 				while (spawnTimer > 1f/spawnRate) {
@@ -165,7 +165,7 @@ public class ResourceManager : MonoBehaviour {
 		for (int i=0;i<resources.Count;i++) {
 			matrices[i] = Matrix4x4.TRS(resources[i].position,Quaternion.identity,scale);
 		}
-		Graphics.DrawMeshInstanced(resourceMesh,0,resourceMaterial,matrices);
+		Graphics.DrawMeshInstanced(resourceMesh,0,resourceMaterial,matrices);*/
 	}
 
 	private void OnDrawGizmosSelected() {
