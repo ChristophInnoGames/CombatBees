@@ -282,10 +282,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceSize: 0.75
-  snapStiffness: 0
-  carryStiffness: 0
-  spawnRate: 0.1
-  beesPerResource: 0
+  snapStiffness: 2
+  carryStiffness: 5
+  spawnRate: 10
+  beesPerResource: 8
   startResourceCount: 500
   gridCounts: {x: 0, y: 0}
   gridSize: {x: 0, y: 0}
