@@ -44,7 +44,7 @@ public class BeeManagerECS : MonoBehaviour {
 	List<List<Matrix4x4>> beeMatrices;
 	List<List<Vector4>> beeColors;
 
-	static BeeManagerECS instance;
+	public static BeeManagerECS instance;
 
 	const int beesPerBatch=1023;
 	MaterialPropertyBlock matProps;
