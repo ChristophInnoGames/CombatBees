@@ -145,7 +145,7 @@ public class ResourceManager : MonoBehaviour {
 						for (int j = 0; j < beesPerResource; j++) {
 							BeeManager.SpawnBee(resource.position,team);
 						}
-						ParticleManager.SpawnParticle(resource.position,ParticleType.SpawnFlash,Vector3.zero,6f,5);
+						ParticleManagerECS.SpawnParticle(resource.position,ParticleType.SpawnFlash,Vector3.zero,6f,5);
 						DeleteResource(resource);
 					} else {
 						resource.stacked = true;
