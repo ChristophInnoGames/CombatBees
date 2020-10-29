@@ -68,56 +68,6 @@ public class ParticleManagerECS : MonoBehaviour {
 			new GameObjectConversionSettings(world, GameObjectConversionUtility.ConversionFlags.AssignName);
 		ParticleEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(ParticlePrefab, settings);
 	}
-	
-	void FixedUpdate () {
-		// float deltaTime = Time.deltaTime;
-		// for (int i=0;i<particles.Count;i++) {
-		// 	BeeParticle particle = particles[i];
-		// 	if (!particle.stuck) {
-		// 		particle.velocity += Vector3.up * (Field.gravity * deltaTime);
-		// 		particle.position += particle.velocity * deltaTime;
-		// 		
-		// 		if (System.Math.Abs(particle.position.x) > Field.size.x * .5f) {
-		// 			particle.position.x = Field.size.x * .5f * Mathf.Sign(particle.position.x);
-		// 			float splat = Mathf.Abs(particle.velocity.x*.3f) + 1f;
-		// 			particle.size.y *= splat;
-		// 			particle.size.z *= splat;
-		// 			particle.stuck = true;
-		// 		}
-		// 		if (System.Math.Abs(particle.position.y) > Field.size.y * .5f) {
-		// 			particle.position.y = Field.size.y * .5f * Mathf.Sign(particle.position.y);
-		// 			float splat = Mathf.Abs(particle.velocity.y * .3f) + 1f;
-		// 			particle.size.z *= splat;
-		// 			particle.size.x *= splat;
-		// 			particle.stuck = true;
-		// 		}
-		// 		if (System.Math.Abs(particle.position.z) > Field.size.z * .5f) {
-		// 			particle.position.z = Field.size.z * .5f * Mathf.Sign(particle.position.z);
-		// 			float splat = Mathf.Abs(particle.velocity.z * .3f) + 1f;
-		// 			particle.size.x *= splat;
-		// 			particle.size.y *= splat;
-		// 			particle.stuck = true;
-		// 		}
-		//
-		// 		if (particle.stuck) {
-		// 			particle.cachedMatrix = Matrix4x4.TRS(particle.position,Quaternion.identity,particle.size);
-		// 		}
-		// 	}
-		//
-		// 	particle.life -= deltaTime / particle.lifeDuration;
-		// 	if (particle.life < 0f) {
-		// 		activeBatchSize--;
-		// 		if (activeBatchSize==0 && activeBatch>0) {
-		// 			activeBatch--;
-		// 			activeBatchSize = instancesPerBatch;
-		// 		}
-		//
-		// 		pooledParticles.Add(particle);
-		// 		particles.RemoveAt(i);
-		// 		i--;
-		// 	}
-		// }
-	}
 
 	void Update() {
 		// for (int j = 0; j <= activeBatch; j++) {
