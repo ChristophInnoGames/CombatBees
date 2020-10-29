@@ -1,17 +1,13 @@
 using System.Collections.Generic;
 using ECS.Components;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ResourceManagerECS : MonoBehaviour {
-	public Mesh resourceMesh;
-	public Material resourceMaterial;
 	public float resourceSize;
-	public float snapStiffness;
-	public float carryStiffness;
-	public float spawnRate=.1f;
-	public int beesPerResource;
 	[Space(10)]
 	public int startResourceCount;
 	
@@ -74,6 +70,7 @@ public class ResourceManagerECS : MonoBehaviour {
 		Entity resource = manager.Instantiate(ResourceEntityPrefab);
 		manager.SetComponentData(resource, new Translation {Value = pos});
 		manager.AddComponentData(resource, new ResourceTag());
+		manager.AddComponentData(resource, new Velocity {Value = float3.zero});
 	}
 	void DeleteResource(Resource resource) {
 		resource.dead = true;
